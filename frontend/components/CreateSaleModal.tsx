@@ -120,10 +120,13 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
             </Field>
 
             <Field label="Monto" error={errors.amount?.message}>
-              <div className="relative">
+              <div
+                className="flex items-center field-input"
+                style={{ padding: 0, overflow: 'hidden' }}
+              >
                 <span
-                  className="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-sm"
-                  style={{ color: 'var(--text-muted)' }}
+                  className="px-3 font-mono text-sm select-none"
+                  style={{ color: 'var(--text-muted)', borderRight: '1px solid var(--border)', padding: '0.625rem 0.75rem' }}
                 >
                   $
                 </span>
@@ -138,7 +141,7 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
                   placeholder="0.00"
                   min="0.01"
                   step="0.01"
-                  className="field-input pl-8"
+                  style={{ flex: 1, padding: '0.625rem 1rem', background: 'transparent', outline: 'none', border: 'none' }}
                 />
               </div>
             </Field>

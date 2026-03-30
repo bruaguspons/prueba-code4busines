@@ -36,7 +36,7 @@ Abre [http://localhost:3000](http://localhost:3000) en el navegador.
 > Requiere Docker y Docker Compose instalados.
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
 - Frontend → [http://localhost:3000](http://localhost:3000)
