@@ -38,6 +38,8 @@ Abre [http://localhost:3000](http://localhost:3000) en el navegador.
 > Requiere Docker y Docker Compose instalados.
 
 ```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env.local
 docker compose up --build -d
 ```
 
