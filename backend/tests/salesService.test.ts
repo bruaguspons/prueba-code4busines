@@ -14,7 +14,7 @@ vi.mock('../src/db/prisma', () => ({
 
 import prisma from '../src/db/prisma';
 
-const mockPrisma = prisma as {
+const mockPrisma = prisma as unknown as {
   sale: {
     findMany: ReturnType<typeof vi.fn>;
     create: ReturnType<typeof vi.fn>;

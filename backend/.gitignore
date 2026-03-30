@@ -17,6 +17,11 @@ dist/
 */prisma/migrations
 */prisma/migrations/*
 */migrations/*
+**/*.db
+**/*.db-journal
+**/*.db-wal
+**/*.db-shm
+**/*.db-trace
 
 # TypeScript
 *.tsbuildinfo

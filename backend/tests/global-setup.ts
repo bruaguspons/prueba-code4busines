@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 import { unlink } from 'fs/promises';
 import path from 'path';
 
-const TEST_DB_URL = 'file:./prisma/test.db';
+const TEST_DB_URL = 'file:./test.db';
 const TEST_DB_PATH = path.resolve(__dirname, '../prisma/test.db');
 
 export async function setup() {

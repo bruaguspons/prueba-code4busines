@@ -4,9 +4,9 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./data:/app/prisma
+      - ./data:/app/data
     environment:
-      DATABASE_URL: file:./dev.db
+      DATABASE_URL: file:../data/dev.db
       PORT: 4000
 
   frontend:

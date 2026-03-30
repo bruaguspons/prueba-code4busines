@@ -1,5 +1,7 @@
 FROM node:20-alpine AS builder
 
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -15,6 +17,8 @@ RUN npm run build
 # Production stage
 FROM node:20-alpine AS runner
 
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -22,10 +26,8 @@ RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/node_modules/.bin/prisma ./node_modules/.bin/prisma
 COPY prisma ./prisma/
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy && node dist/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
