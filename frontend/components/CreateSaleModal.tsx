@@ -33,12 +33,12 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
 
   function validate(): FormErrors {
     const e: FormErrors = {};
-    if (!customer.trim()) e.customer = 'Customer name is required';
-    if (!product.trim()) e.product = 'Product name is required';
+    if (!customer.trim()) e.customer = 'El cliente es requerido';
+    if (!product.trim()) e.product = 'El producto es requerido';
     if (!amount.trim()) {
-      e.amount = 'Amount is required';
+      e.amount = 'El monto es requerido';
     } else if (isNaN(Number(amount)) || Number(amount) <= 0) {
-      e.amount = 'Amount must be a positive number';
+      e.amount = 'El monto debe ser un número positivo';
     }
     return e;
   }
@@ -61,7 +61,7 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
       onCreated(sale);
       onClose();
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'Something went wrong');
+      setServerError(err instanceof Error ? err.message : 'Ocurrió un error inesperado');
     } finally {
       setLoading(false);
     }
@@ -89,10 +89,10 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-xs font-mono tracking-[0.2em] uppercase mb-1" style={{ color: 'var(--accent)' }}>
-                New Record
+                Nuevo registro
               </p>
               <h2 className="text-2xl font-serif font-bold" style={{ color: 'var(--text-primary)' }}>
-                Create Sale
+                Crear venta
               </h2>
             </div>
             <button
@@ -123,7 +123,7 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
             )}
 
             <Field
-              label="Customer"
+              label="Cliente"
               error={errors.customer}
               inputRef={firstInputRef}
             >
@@ -132,22 +132,22 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
                 type="text"
                 value={customer}
                 onChange={(e) => { setCustomer(e.target.value); setErrors((p) => ({ ...p, customer: undefined })); }}
-                placeholder="e.g. Acme Corporation"
+                placeholder="ej. Acme S.A."
                 className="field-input"
               />
             </Field>
 
-            <Field label="Product" error={errors.product}>
+            <Field label="Producto" error={errors.product}>
               <input
                 type="text"
                 value={product}
                 onChange={(e) => { setProduct(e.target.value); setErrors((p) => ({ ...p, product: undefined })); }}
-                placeholder="e.g. Widget Pro"
+                placeholder="ej. Widget Pro"
                 className="field-input"
               />
             </Field>
 
-            <Field label="Amount" error={errors.amount}>
+            <Field label="Monto" error={errors.amount}>
               <div className="relative">
                 <span
                   className="absolute left-4 top-1/2 -translate-y-1/2 font-mono text-sm"
@@ -179,7 +179,7 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
               onMouseOver={(e) => (e.currentTarget.style.background = 'var(--border)')}
               onMouseOut={(e) => (e.currentTarget.style.background = 'var(--surface-elevated)')}
             >
-              Cancel
+              Cancelar
             </button>
             <button
               type="submit"
@@ -193,7 +193,7 @@ export default function CreateSaleModal({ onClose, onCreated }: Props) {
                   <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                 </svg>
               )}
-              {loading ? 'Creating…' : 'Create Sale'}
+              {loading ? 'Creando…' : 'Crear venta'}
             </button>
           </div>
         </form>

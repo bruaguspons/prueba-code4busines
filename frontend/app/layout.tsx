@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sales Ledger",
-  description: "Sales management and evaluation dashboard",
+  title: "Registro de Ventas",
+  description: "Panel de gestión y evaluación de ventas",
 };
 
 export default function RootLayout({

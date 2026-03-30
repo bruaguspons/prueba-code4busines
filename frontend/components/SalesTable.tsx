@@ -55,7 +55,7 @@ export default function SalesTable() {
       setSales(data);
       setFetchError('');
     } catch {
-      setFetchError('Failed to load sales. Is the backend running?');
+      setFetchError('No se pudieron cargar las ventas. ¿Está el backend corriendo?');
     } finally {
       setLoading(false);
     }
@@ -67,12 +67,12 @@ export default function SalesTable() {
 
   function handleCreated(sale: Sale) {
     setSales((prev) => [sale, ...prev]);
-    addToast('Sale created successfully', 'success');
+    addToast('Venta creada exitosamente', 'success');
   }
 
   function handleEvaluated(updated: Sale) {
     setSales((prev) => prev.map((s) => (s.id === updated.id ? updated : s)));
-    addToast('Score saved successfully', 'success');
+    addToast('Puntaje guardado exitosamente', 'success');
   }
 
   const evaluated = sales.filter((s) => s.score !== null);
@@ -82,10 +82,10 @@ export default function SalesTable() {
       : null;
 
   const formatAmount = (n: number) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+    new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'USD' }).format(n);
 
   const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    new Date(iso).toLocaleDateString('es-AR', { month: 'short', day: 'numeric', year: 'numeric' });
 
   return (
     <>
@@ -131,10 +131,10 @@ export default function SalesTable() {
               </div>
               <div>
                 <h1 className="text-lg font-serif font-bold leading-none" style={{ color: 'var(--text-primary)' }}>
-                  Sales Ledger
+                  Registro de Ventas
                 </h1>
                 <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                  {sales.length} record{sales.length !== 1 ? 's' : ''}
+                  {sales.length} {sales.length !== 1 ? 'registros' : 'registro'}
                 </p>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function SalesTable() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M12 5v14M5 12h14" />
               </svg>
-              New Sale
+              Nueva Venta
             </button>
           </div>
         </header>
@@ -158,13 +158,13 @@ export default function SalesTable() {
           <div style={{ background: 'var(--surface-elevated)', borderBottom: '1px solid var(--border)' }}>
             <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-8">
               <Stat
-                label="Total Sales"
+                label="Total vendido"
                 value={formatAmount(sales.reduce((s, x) => s + x.amount, 0))}
               />
-              <Stat label="Evaluated" value={`${evaluated.length} / ${sales.length}`} />
+              <Stat label="Evaluadas" value={`${evaluated.length} / ${sales.length}`} />
               {avgScore !== null && (
                 <Stat
-                  label="Avg Score"
+                  label="Puntaje promedio"
                   value={
                     <span className="flex items-center gap-1.5">
                       <Stars score={Math.round(avgScore)} />
@@ -194,7 +194,7 @@ export default function SalesTable() {
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.2" />
                 <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
               </svg>
-              <p className="font-mono text-sm" style={{ color: 'var(--text-muted)' }}>Loading sales…</p>
+              <p className="font-mono text-sm" style={{ color: 'var(--text-muted)' }}>Cargando ventas…</p>
             </div>
           ) : fetchError ? (
             <div
@@ -207,7 +207,7 @@ export default function SalesTable() {
                 className="mt-4 px-4 py-2 rounded-lg font-mono text-xs cursor-pointer"
                 style={{ background: 'rgba(220,38,38,0.1)', color: '#dc2626' }}
               >
-                Retry
+                Reintentar
               </button>
             </div>
           ) : sales.length === 0 ? (
@@ -223,15 +223,15 @@ export default function SalesTable() {
                 </svg>
               </div>
               <div className="text-center">
-                <p className="font-serif text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>No sales yet</p>
-                <p className="font-mono text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Create your first sale to get started</p>
+                <p className="font-serif text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Sin ventas aún</p>
+                <p className="font-mono text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Creá tu primera venta para comenzar</p>
               </div>
               <button
                 onClick={() => setShowCreate(true)}
                 className="px-5 py-2.5 rounded-xl font-mono text-sm font-medium cursor-pointer"
                 style={{ background: 'var(--accent)', color: '#fff' }}
               >
-                Create Sale
+                Crear venta
               </button>
             </div>
           ) : (
@@ -243,7 +243,7 @@ export default function SalesTable() {
                 <table className="w-full">
                   <thead>
                     <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                      {['Customer', 'Product', 'Amount', 'Date', 'Score', 'Actions'].map((h) => (
+                      {['Cliente', 'Producto', 'Monto', 'Fecha', 'Puntaje', 'Acciones'].map((h) => (
                         <th
                           key={h}
                           className="px-6 py-4 text-left text-xs font-mono tracking-wider uppercase"
@@ -311,7 +311,7 @@ export default function SalesTable() {
                               e.currentTarget.style.border = '1px solid var(--border)';
                             }}
                           >
-                            {sale.score !== null ? 'Re-evaluate' : 'Evaluate'}
+                            {sale.score !== null ? 'Re-evaluar' : 'Evaluar'}
                           </button>
                         </td>
                       </tr>
@@ -322,7 +322,7 @@ export default function SalesTable() {
                       <tr style={{ borderTop: '2px solid var(--border)', background: 'var(--surface-elevated)' }}>
                         <td colSpan={4} className="px-6 py-3">
                           <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>
-                            Average score across {evaluated.length} evaluated sale{evaluated.length !== 1 ? 's' : ''}
+                            Puntaje promedio de {evaluated.length} venta{evaluated.length !== 1 ? 's' : ''} evaluada{evaluated.length !== 1 ? 's' : ''}
                           </span>
                         </td>
                         <td className="px-6 py-3">

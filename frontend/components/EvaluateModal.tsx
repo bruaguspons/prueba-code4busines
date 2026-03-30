@@ -25,16 +25,16 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
   const displayed = hovered ?? selected;
 
   const labels: Record<number, string> = {
-    1: 'Poor',
-    2: 'Fair',
-    3: 'Good',
-    4: 'Very Good',
-    5: 'Excellent',
+    1: 'Malo',
+    2: 'Regular',
+    3: 'Bueno',
+    4: 'Muy bueno',
+    5: 'Excelente',
   };
 
   async function handleSubmit() {
     if (selected === 0) {
-      setError('Please select a score');
+      setError('Por favor seleccioná un puntaje');
       return;
     }
     setLoading(true);
@@ -44,7 +44,7 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
       onEvaluated(updated);
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado');
     } finally {
       setLoading(false);
     }
@@ -69,7 +69,7 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-xs font-mono tracking-[0.2em] uppercase mb-1" style={{ color: 'var(--accent)' }}>
-                Evaluate
+                Evaluar
               </p>
               <h2 className="text-xl font-serif font-bold" style={{ color: 'var(--text-primary)' }}>
                 {sale.customer}
@@ -104,7 +104,7 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
                 onMouseLeave={() => setHovered(null)}
                 className="cursor-pointer transition-transform"
                 style={{ transform: displayed >= n ? 'scale(1.1)' : 'scale(1)' }}
-                aria-label={`Rate ${n} star${n > 1 ? 's' : ''}`}
+                aria-label={`Puntaje ${n}`}
               >
                 <svg
                   width="36"
@@ -146,7 +146,7 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
             onMouseOver={(e) => (e.currentTarget.style.background = 'var(--border)')}
             onMouseOut={(e) => (e.currentTarget.style.background = 'var(--surface-elevated)')}
           >
-            Cancel
+            Cancelar
           </button>
           <button
             onClick={handleSubmit}
@@ -165,7 +165,7 @@ export default function EvaluateModal({ sale, onClose, onEvaluated }: Props) {
                 <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
               </svg>
             )}
-            {loading ? 'Saving…' : 'Save Score'}
+            {loading ? 'Guardando…' : 'Guardar puntaje'}
           </button>
         </div>
       </div>
