@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { getSales } from '@/lib/api';
+import { use, useState } from 'react';
 import type { Sale } from '@/types/sale';
 import CreateSaleModal from './CreateSaleModal';
 import EvaluateModal from './EvaluateModal';
@@ -10,6 +9,10 @@ interface Toast {
   id: number;
   message: string;
   type: 'success' | 'error';
+}
+
+interface Props {
+  salesPromise: Promise<Sale[]>;
 }
 
 function Stars({ score }: { score: number | null }) {
@@ -35,35 +38,18 @@ function Stars({ score }: { score: number | null }) {
   );
 }
 
-export default function SalesTable() {
-  const [sales, setSales] = useState<Sale[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState('');
+export default function SalesTable({ salesPromise }: Props) {
+  const initialSales = use(salesPromise);
+  const [sales, setSales] = useState(initialSales);
   const [showCreate, setShowCreate] = useState(false);
   const [evaluating, setEvaluating] = useState<Sale | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((message: string, type: 'success' | 'error') => {
+  function addToast(message: string, type: 'success' | 'error') {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3500);
-  }, []);
-
-  const fetchSales = useCallback(async () => {
-    try {
-      const data = await getSales();
-      setSales(data);
-      setFetchError('');
-    } catch {
-      setFetchError('No se pudieron cargar las ventas. ¿Está el backend corriendo?');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSales();
-  }, [fetchSales]);
+  }
 
   function handleCreated(sale: Sale) {
     setSales((prev) => [sale, ...prev]);
@@ -181,36 +167,7 @@ export default function SalesTable() {
 
         {/* Main content */}
         <main className="max-w-6xl mx-auto px-6 py-8">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center py-32 gap-4">
-              <svg
-                className="animate-spin"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                style={{ color: 'var(--accent)' }}
-              >
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.2" />
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-              <p className="font-mono text-sm" style={{ color: 'var(--text-muted)' }}>Cargando ventas…</p>
-            </div>
-          ) : fetchError ? (
-            <div
-              className="rounded-2xl p-8 text-center"
-              style={{ background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.15)' }}
-            >
-              <p className="font-mono text-sm" style={{ color: '#dc2626' }}>{fetchError}</p>
-              <button
-                onClick={fetchSales}
-                className="mt-4 px-4 py-2 rounded-lg font-mono text-xs cursor-pointer"
-                style={{ background: 'rgba(220,38,38,0.1)', color: '#dc2626' }}
-              >
-                Reintentar
-              </button>
-            </div>
-          ) : sales.length === 0 ? (
+          {sales.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-32 gap-4">
               <div
                 className="w-16 h-16 rounded-2xl flex items-center justify-center"
