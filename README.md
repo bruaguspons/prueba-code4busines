@@ -12,6 +12,7 @@ Aplicación full-stack para gestionar y evaluar ventas. Crea registros, llévalo
 
 ```bash
 cd backend
+cp .env.example .env                 # configurar variables de entorno
 npm install
 npx prisma migrate dev --name init   # crea la base de datos y aplica el esquema
 npm run dev                          # inicia en http://localhost:4000
@@ -23,6 +24,7 @@ En otra terminal:
 
 ```bash
 cd frontend
+cp .env.example .env.local           # configurar variables de entorno
 npm install
 npm run dev                          # inicia en http://localhost:3000
 ```
